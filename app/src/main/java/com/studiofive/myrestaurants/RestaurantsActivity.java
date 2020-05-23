@@ -16,15 +16,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RestaurantsActivity extends AppCompatActivity {
-@BindView(R.id.locationTextView) TextView mLocationTextView;
-@BindView(R.id.listView) ListView mListView;
+@BindView(R.id.locationTextView)
+TextView mLocationTextView;
+@BindView(R.id.listView)
+ListView mListView;
 public static final String TAG = RestaurantsActivity.class.getSimpleName();
 
-    private String[] restaurants = new String[] {"Mi Mero Mole", "Mother's Bistro",
-            "Life of Pie", "Screen Door", "Luc Lac", "Sweet Basil",
-            "Slappy Cakes", "Equinox", "Miss Delta's", "Andina",
-            "Lardo", "Portland City Grill", "Fat Head's Brewery",
-            "Chipotle", "Subway"};
+    private String[] restaurants = new String[] {"Sweet Hereafter", "Cricket", "Hawthorne Fish House", "Viking Soul Food", "Red Square", "Horse Brass", "Dick's Kitchen", "Taco Bell", "Me Kha Noodle Bar", "La Bonita Taqueria", "Smokehouse Tavern", "Pembiche", "Kay's Bar", "Gnarly Grey", "Slappy Cakes", "Mi Mero Mole" };
+    private String[] cuisines = new String[] {"Vegan Food", "Breakfast", "Fishs Dishs", "Scandinavian", "Coffee", "English Food", "Burgers", "Fast Food", "Noodle Soups", "Mexican", "BBQ", "Cuban", "Bar Food", "Sports Bar", "Breakfast", "Mexican" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public static final String TAG = RestaurantsActivity.class.getSimpleName();
         ButterKnife.bind(this);
 
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, restaurants);
+        MyRestaurantsArrayAdapter adapter = new MyRestaurantsArrayAdapter(this, android.R.layout.simple_list_item_1, restaurants, cuisines);
         mListView.setAdapter(adapter);
 
         //Setting a toaster
