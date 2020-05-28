@@ -1,11 +1,14 @@
 
-package network;
+package models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import network.Center;
+import org.parceler.Parcel;
 
+import models.Center;
+
+@Parcel
 public class Region {
 
     @SerializedName("center")
