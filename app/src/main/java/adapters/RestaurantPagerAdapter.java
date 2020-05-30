@@ -29,6 +29,7 @@ public class RestaurantPagerAdapter extends FragmentPagerAdapter {
         return mRestaurants.size();
     }
 
+    //updates title that appears in scrolling tabs at top of screen
     @Override
     public CharSequence getPageTitle(int position){
         return mRestaurants.get(position).getName();

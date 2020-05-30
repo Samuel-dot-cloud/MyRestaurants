@@ -20,7 +20,7 @@ import models.Business;
 public class RestaurantDetailActivity extends AppCompatActivity {
     @BindView(R.id.viewPager)
     ViewPager mViewPager;
-    private RestaurantPagerAdapter adaperViewPager;
+    private RestaurantPagerAdapter adapterViewPager;
     List<Business> mRestaurants;
 
     @Override
@@ -32,8 +32,8 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         mRestaurants = Parcels.unwrap(getIntent().getParcelableExtra("restaurants"));
         int startingPoint = getIntent().getIntExtra("position", 0);
 
-        adaperViewPager = new RestaurantPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, mRestaurants);
-        mViewPager.setAdapter(adaperViewPager);
+        adapterViewPager = new RestaurantPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, mRestaurants);
+        mViewPager.setAdapter(adapterViewPager);
         mViewPager.setCurrentItem(startingPoint);
     }
 }
