@@ -12,8 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+import com.studiofive.myrestaurants.Constants;
 import com.studiofive.myrestaurants.R;
 
 import org.parceler.Parcels;
@@ -36,7 +42,7 @@ public class RestaurantDetailFragment extends Fragment implements View.OnClickLi
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final int MAX_WIDTH = 400;
     private static final int MAX_HEIGHT = 300;
-   @BindView(R.id.restaurantImageView)
+    @BindView(R.id.restaurantImageView)
     ImageView mImageLabel;
     @BindView(R.id.restaurantNameTextView)
     TextView mNameLabel;
@@ -64,7 +70,6 @@ public class RestaurantDetailFragment extends Fragment implements View.OnClickLi
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     *
      * @return A new instance of fragment RestaurantDetailFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -80,7 +85,7 @@ public class RestaurantDetailFragment extends Fragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRestaurant = Parcels.unwrap(getArguments().getParcelable("restaurant"));
-        }
+    }
 
 
     @Override
@@ -98,7 +103,7 @@ public class RestaurantDetailFragment extends Fragment implements View.OnClickLi
 
         List<String> categories = new ArrayList<>();
 
-        for (Category category : mRestaurant.getCategories()){
+        for (Category category : mRestaurant.getCategories()) {
             categories.add(category.getTitle());
         }
 
@@ -109,25 +114,45 @@ public class RestaurantDetailFragment extends Fragment implements View.OnClickLi
         mPhoneLabel.setOnClickListener(this);
         mAddressLabel.setOnClickListener(this);
 
+        //save restaurant button
+        mSaveRestaurantButton.setOnClickListener(this);
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if (v == mWebsiteLabel){
+        if (v == mWebsiteLabel) {
             Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mRestaurant.getUrl()));
             startActivity(webIntent);
         }
 
-        if (v == mPhoneLabel){
+        if (v == mPhoneLabel) {
             Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("Tel:" + mRestaurant.getPhone()));
             startActivity(phoneIntent);
         }
 
-        if (v == mAddressLabel){
+        if (v == mAddressLabel) {
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + mRestaurant.getCoordinates().getLatitude() + "," + mRestaurant.getCoordinates().getLongitude() + "?q=(" + mRestaurant.getName() + ")"));
             startActivity(mapIntent);
         }
 
+        //defining saving restaurant to database
+        if (v == mSaveRestaurantButton) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = user.getUid();
+
+            DatabaseReference restaurantRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference(Constants.FIREBASE_CHILD_RESTAURANTS)
+                    .child(uid);
+
+            DatabaseReference pushRef = restaurantRef.push();
+            String pushId = pushRef.getKey();
+            mRestaurant.setPushId(pushId);
+            pushRef.setValue(mRestaurant);
+            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

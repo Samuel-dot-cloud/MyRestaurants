@@ -16,7 +16,7 @@ import com.studiofive.myrestaurants.R;
 
 import org.parceler.Parcels;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +24,10 @@ import models.Business;
 import ui.RestaurantDetailActivity;
 
 public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder> {
-    private List<Business> mRestaurants;
+    private ArrayList<Business> mRestaurants;
     private Context mContext;
 
-    public RestaurantListAdapter(Context context, List<Business> restaurants){
+    public RestaurantListAdapter(Context context, ArrayList<Business> restaurants){
         mContext = context;
         mRestaurants = restaurants;
     }
